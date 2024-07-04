@@ -1,6 +1,6 @@
+import 'package:first_app/quiz/data/questions.dart';
 import 'package:first_app/quiz/question_screen.dart';
 import 'package:first_app/quiz/start_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Quiz extends StatefulWidget {
@@ -13,12 +13,27 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  var _activeScreen = 'start-screen';
+  List<String> answerList = [];
+
+  var activeScreen = 'start-screen';
 
   void startQuizScreen() {
     setState(() {
-      _activeScreen = "question-screen";
+      activeScreen = "question-screen";
     });
+  }
+
+  void chooseAnswer(String answer) {
+    answerList.add(answer);
+
+    if (answerList.length == questions.length) {
+      setState(() {
+        answerList = [];
+        activeScreen = 'start-screen';
+      });
+    }
+
+    debugPrint("Choose Answer:: $answer");
   }
 
   @override
@@ -27,12 +42,14 @@ class _QuizState extends State<Quiz> {
       startQuizScreen: startQuizScreen,
     );
 
-    if (_activeScreen == 'question-screen') {
+    if (activeScreen == 'question-screen') {
       // question is being assinged in screenWidget
-      screenWidget = QuestionScreen();
+      screenWidget = QuestionScreen(
+        chooseAnser: chooseAnswer,
+      );
     }
 
-    if (_activeScreen == 'result-screen') {
+    if (activeScreen == 'result-screen') {
       //result is being assigned in screenWidget
     }
 
