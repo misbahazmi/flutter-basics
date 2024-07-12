@@ -62,6 +62,7 @@ class _QuizState extends State<Quiz> {
     }
 
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
