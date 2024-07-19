@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:first_app/expense_manager/expense_list/expense_list.dart';
 import 'package:first_app/expense_manager/models/expense.dart';
+import 'package:first_app/expense_manager/widgets/add_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -10,6 +14,22 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  void addExpense(Expense expense) {
+    setState(() {
+      _expensList.add(expense);
+    });
+  }
+
+  Future<void> _openAddExpense() async {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => AddExpense(
+        addExpense: addExpense,
+      ),
+    );
+  }
+
   final List<Expense> _expensList = [
     Expense(
         title: 'Lunch',
@@ -41,7 +61,7 @@ class _ExpensesState extends State<Expenses> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: _openAddExpense,
             icon: const Icon(Icons.add),
           ),
         ],
