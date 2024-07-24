@@ -17,15 +17,7 @@ class _AddExpenseState extends State<AddExpense> {
   final TextEditingController _amountController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.others;
-  bool _themeData = false;
-
-  Future<void> _saveThemeData(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      //prefs.setBool('theme', value);
-      _themeData = value;
-    });
-  }
+  bool isSwitchedFT = false;
 
   void _showDatePickerDialog() async {
     final now = DateTime.now();
@@ -81,14 +73,27 @@ class _AddExpenseState extends State<AddExpense> {
   @override
   void initState() {
     super.initState();
-    _loadPref();
+    getSwitchValues();
   }
 
-  void _loadPref() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _themeData = prefs.getBool('theme') ?? false;
-    });
+  getSwitchValues() async {
+    isSwitchedFT = await getSwitchState();
+    setState(() {});
+  }
+
+  Future<bool> saveSwitchState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("switchState", value);
+    debugPrint('Switch Value saved $value');
+    return prefs.setBool("switchState", value);
+  }
+
+  Future<bool> getSwitchState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isSwitchedFT = prefs.getBool("switchState") ?? false;
+    debugPrint('Switch Saved Value $isSwitchedFT');
+
+    return isSwitchedFT;
   }
 
   @override
@@ -182,12 +187,12 @@ class _AddExpenseState extends State<AddExpense> {
           ),
           SwitchListTile(
             title: const Text('App Theme'),
-            value: _themeData,
+            value: isSwitchedFT,
             onChanged: (data) async {
-              final prefs = await SharedPreferences.getInstance();
               setState(() {
-                _themeData = data;
-                prefs.setBool('theme', data);
+                isSwitchedFT = data;
+                saveSwitchState(data);
+                debugPrint('Saved state is $isSwitchedFT');
               });
             },
             secondary: const Icon(Icons.lightbulb_outline),

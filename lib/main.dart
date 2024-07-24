@@ -1,5 +1,6 @@
 import 'package:first_app/dice.dart';
 import 'package:first_app/expense_manager/expenses.dart';
+import 'package:first_app/locations/location_example.dart';
 import 'package:first_app/quiz/quiz.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: const Expenses(),
+      home: const LocationExample(),
     ),
   );
 
