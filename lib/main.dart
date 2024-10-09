@@ -5,6 +5,7 @@ import 'package:first_app/quiz/quiz.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // This code for Start Location Fetching App
   // runApp(
   //   MaterialApp(
   //     debugShowCheckedModeBanner: false,
@@ -13,8 +14,10 @@ void main() {
   //   ),
   // );
 
+  // This code for Start Quiz App
   //runApp(const Quiz());
 
+  // This code for Start Dice App
   runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,
